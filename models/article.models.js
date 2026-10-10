@@ -18,8 +18,9 @@ const articleSchema = new mongoose.Schema({
         required: true,
     },
     author: {
-        type: String,
-        default: 'Guest',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     },
     isPublished: {
         type: Boolean,
@@ -32,6 +33,8 @@ const articleSchema = new mongoose.Schema({
 },
     { timestamps: true }
 );
+
+articleSchema.index({ title: 'text', content: 'text', category: 'text', author: 'text' });
 
 const Article = mongoose.model('Article', articleSchema);
 

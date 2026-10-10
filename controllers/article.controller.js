@@ -1,4 +1,3 @@
-
 const Joi = require('joi');
 
 const ArticleModel = require('../models/article.models.js');
@@ -25,14 +24,14 @@ const postArticle = async (req, res, next) => {
     }
 
     try {
-        const { title, content,category, author, isPublished, description } = value;
+        const { title, content, category, author, isPublished, description } = value;
          const newArticle = new ArticleModel({
-            title,
-            content,
-            category,
-            author,
-            isPublished,
-            description,
+            title: req.body.title,
+            content: req.body.content,
+            category: req.body.category,
+            author: req.user._id, // Use the authenticated user's ID as the author
+            isPublished: req.body.isPublished,
+            description: req.body.description,
          });
          await newArticle.save();
 
@@ -97,7 +96,6 @@ const updateArticleById = async (req, res, next) => {
         title: Joi.string().min(7),
         content: Joi.string().min(30),
         category: Joi.string().valid('Tech', 'Faith', 'Lifestyle', 'Tutorial', 'Love', 'Faith', 'Food', 'Travel'),
-        author: Joi.string(),
         isPublished: Joi.boolean(),
         description: Joi.string(),
     }).min(1);
@@ -125,12 +123,14 @@ const updateArticleById = async (req, res, next) => {
         });
       }
 
-      
+      if(updatedArticle.author.toString() !== req.user._id.toString()) {
+        return res.status(403).json({message: 'You are not authorized to update this article'});
+      }
+
         return res.status(200).json({
             message: "article updated",
             data: updatedArticle,
         });
-    
     } catch (error) {
         console.error(error)
         next(error);
@@ -146,6 +146,9 @@ const deleteArticleById = async (req, res, next) => {
             message: "article not found",
         });
     }
+if(article.author.toString() !==req.user._id.toString() && req.user.role !== 'admin') {
+   return res.status(403).json({message: 'You are not authorized to delete this article'});    
+}
 
     return res.status(200).json({
         message: "article deleted",
