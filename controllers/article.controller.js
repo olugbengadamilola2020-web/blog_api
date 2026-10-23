@@ -160,7 +160,6 @@ if(article.author.toString() !==req.user._id.toString() && req.user.role !== 'ad
     }
 };
 
-
 const searchArticles = async (req, res, next) => {
     try {
         const { query } = req.query;
@@ -169,9 +168,7 @@ const searchArticles = async (req, res, next) => {
           return res.status(400).json({
         message: 'Query required'
     });
-
-
-        const articles = await ArticleModel.find({
+      const articles = await ArticleModel.find({
             $text: {
                 $search: query
             }
