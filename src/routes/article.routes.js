@@ -15,17 +15,18 @@ const requireAuth = require('../middleware/requireAuth.js');
 
 const router = express.Router();
 
+router.use(requireAuth);
 
-router.post("/articles",  ValidatePost, requireAuth, postArticle);
+router.post("/articles",  ValidatePost, postArticle);
 
-router.get("/articles", requireAuth, getAllArticle);
+router.get("/articles",  getAllArticle);
 
-router.get("/articles/:id", requireAuth, getArticleById);
+router.get("/articles/:id", getArticleById);
 
-router.put("/articles/:id", ValidateUpdate, requireAuth, updateArticleById);
+router.put("/articles/:id", ValidateUpdate, updateArticleById);
 
-router.delete("/articles/:id", requireAuth, deleteArticleById);
+router.delete("/articles/:id", deleteArticleById);
 
-router.get("/articles/search/:query", requireAuth, searchArticles);
+router.get("/articles/search/:query", searchArticles);
 
 module.exports = router;
