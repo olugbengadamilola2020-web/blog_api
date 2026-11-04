@@ -5,11 +5,6 @@ const CloudinaryStorage = require('multer-storage-cloudinary').CloudinaryStorage
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    params: 'uploads',
-});
-
-const storage = new CloudinaryStorage({
-    cloudinary,
     params: {folder: 'user uploads', allowed_formats: ['jpg', 'png'] },
 });
 
