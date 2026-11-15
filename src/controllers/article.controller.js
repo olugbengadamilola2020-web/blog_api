@@ -5,7 +5,7 @@ const ArticleModel = require('../models/article.models.js');
 
 const postArticle = async (req, res, next) => {
 
-    const creatArticleSchema = Joi.object({
+    const createArticleSchema = Joi.object({
         title: Joi.string().min(7).required(),
         content: Joi.string().min(30).required(),
         category: Joi.string().valid('Tech', 'Faith', 'Lifestyle', 'Tutorial', 'Love', 'Faith', 'Food', 'Travel').required(),

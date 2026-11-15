@@ -15,17 +15,15 @@ const requireAuth = require('../middleware/requireAuth.js');
 
 const router = express.Router();
 
-router.use(requireAuth);
-
 router.post("/articles",  ValidatePost, postArticle);
 
 router.get("/articles",  getAllArticle);
 
 router.get("/articles/:id", getArticleById);
 
-router.put("/articles/:id", ValidateUpdate, updateArticleById);
+router.put("/articles/:id", requireAuth, ValidateUpdate, updateArticleById);
 
-router.delete("/articles/:id", deleteArticleById);
+router.delete("/articles/:id", requireAuth, deleteArticleById);
 
 router.get("/articles/search/:query", searchArticles);
 
